@@ -14,3 +14,5 @@ gradle-app.setting
 # gradle/wrapper/gradle-wrapper.properties
 /viikko1/teht14/.nb-gradle/
 /viikko1/NhlStatistics1/.nb-gradle/
+
+nbproject/
