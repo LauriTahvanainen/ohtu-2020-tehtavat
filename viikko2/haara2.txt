@@ -1,0 +1,2 @@
+Epäajantasaisen pushaaminen
+Versionhallinta
