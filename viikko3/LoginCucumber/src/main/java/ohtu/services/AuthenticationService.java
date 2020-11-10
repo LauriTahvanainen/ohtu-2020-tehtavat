@@ -40,7 +40,8 @@ public class AuthenticationService {
     }
 
     private boolean invalid(String username, String password) {
-        if (username.length() < 4 || Pattern.matches("a-z", username)) {
+        System.out.println(Pattern.matches("a-z", ""));
+        if (username.length() < 4 || !Pattern.matches("[a-z]+", username)) {
             return true;
         }
 
