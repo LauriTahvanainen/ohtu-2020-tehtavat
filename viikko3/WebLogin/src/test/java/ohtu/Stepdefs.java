@@ -33,8 +33,39 @@ public class Stepdefs {
         element.click();
     }
 
-    @When("correct username {string} and password {string} are given")
+    @Given("user with username {string} with password {string} is successfully created")
+    public void userIsSuccesfullyCreated(String username, String password) throws Throwable {
+        newUserIsSelected();
+        createUserWith(username, password, password);
+        System.out.println(driver.getCurrentUrl());
+        WebElement element = driver.findElement(By.linkText("continue to application mainpage"));
+        element.click();
+
+        element = driver.findElement(By.linkText("logout"));
+        element.click();
+    }
+
+    @Given("user with username {string} and password {string} is tried to be created unsuccesfully")
+    public void userTriedToCreateUnsuccesfully(String username, String password) throws Throwable {
+        newUserIsSelected();
+        createUserWith(username, password, password);
+
+        WebElement element = driver.findElement(By.linkText("back to home"));
+        element.click();
+    }
+
+    @When("just succesfully created credentials {string} and {string} are entered")
+    public void justSuccesfullyCreatedCredentialsEntered(String username, String password) {
+        logInWith(username, password);
+    }
+
+    @When("correct username {string} and password {string} are entered")
     public void correctUsernameAndPasswordAreGiven(String username, String password) {
+        logInWith(username, password);
+    }
+
+    @When("credentials just used to try create an account {string} and {string} are entered")
+    public void credentialsUsedToUnsuccesfullyCreateAnAccountEntered(String username, String password) {
         logInWith(username, password);
     }
 
@@ -43,12 +74,12 @@ public class Stepdefs {
         pageHasContent("Ohtu Application main page");
     }
 
-    @When("correct username {string} and incorrect password {string} are given")
+    @When("correct username {string} and incorrect password {string} are entered")
     public void correctUsernameAndIncorrectPasswordAreGiven(String username, String password) {
         logInWith(username, password);
     }
 
-    @When("nonexistent username {string} and valid password {string} are given")
+    @When("nonexistent username {string} and valid password {string} are entered")
     public void nonexistentAndValidPasswordAreGiven(String username, String password) {
         logInWith(username, password);
     }
