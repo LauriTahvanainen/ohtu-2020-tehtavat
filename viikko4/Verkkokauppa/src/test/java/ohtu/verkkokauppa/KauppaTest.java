@@ -94,4 +94,58 @@ public class KauppaTest {
 
         verify(pankki).tilisiirto(eq("pekka"), anyInt(), eq("12345"), anyString(), eq(5));
     }
+
+    @Test
+    public void aloitaAsiointiNollaaEdellisenOstoksenTiedot() {
+
+        // tehdään ostoksia
+        sut.aloitaAsiointi();
+        sut.lisaaKoriin(1);
+
+        // aloitetaan uusi asiointi
+        sut.aloitaAsiointi();
+        sut.lisaaKoriin(1);
+
+        sut.tilimaksu("pekka", "12345");
+
+        verify(pankki).tilisiirto(eq("pekka"), anyInt(), eq("12345"), anyString(), eq(5));
+    }
+
+    @Test
+    public void uusiViitenumeroJokaiselleMaksutapahtumalle() {
+        when(viite.uusi()).thenReturn(42)
+                .thenReturn(12);
+
+        // tehdään ostoksia
+        sut.aloitaAsiointi();
+        sut.lisaaKoriin(1);
+
+        sut.tilimaksu("kyösti", "54321");
+        verify(viite, times(1)).uusi();
+        verify(pankki).tilisiirto(anyString(), eq(42), anyString(), anyString(), anyInt());
+
+        // aloitetaan uusi asiointi
+        sut.aloitaAsiointi();
+        sut.lisaaKoriin(1);
+
+        sut.tilimaksu("pekka", "12345");
+
+        verify(viite, times(2)).uusi();
+        verify(pankki).tilisiirto(anyString(), eq(12), anyString(), anyString(), anyInt());
+    }
+    
+    @Test
+    public void koristaPoistaminenPalauttaaTuotteenVarastoon() {
+        when(viite.uusi()).thenReturn(42)
+                .thenReturn(12);
+
+        // tehdään ostoksia
+        sut.aloitaAsiointi();
+        sut.lisaaKoriin(1);
+        sut.poistaKorista(1);
+
+        sut.tilimaksu("kyösti", "54321");
+        verify(varasto, times(1)).palautaVarastoon(new Tuote(1, "maito", 5));
+    }
+
 }
