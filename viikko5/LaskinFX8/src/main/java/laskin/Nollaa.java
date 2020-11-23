@@ -14,11 +14,15 @@ public class Nollaa extends Komento {
         io.paivitaNakyma(logiikka.tulos());
 
         io.piilotaNollaus();
-        io.naytaNollaus();
+        io.naytaUndo();
     }
 
     @Override
     public void peru() {
+        this.logiikka.peru();
+        io.paivitaNakyma(logiikka.tulos());
+        io.naytaNollaus();
+        io.piilotaUndo();
     }
 
 }

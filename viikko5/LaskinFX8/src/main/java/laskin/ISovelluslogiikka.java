@@ -9,5 +9,7 @@ public interface ISovelluslogiikka {
     void plus(int luku);
 
     int tulos();
+    
+    void peru();
 
 }
