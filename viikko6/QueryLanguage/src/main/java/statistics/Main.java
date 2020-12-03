@@ -26,19 +26,30 @@ public class Main {
 //        Matcher m = new Or(new HasAtLeast(40, "goals"),
 //                new HasAtLeast(60, "assists")
 //        );
-        Matcher m = new And(
-                new HasAtLeast(50, "points"),
-                new Or(
-                        new PlaysIn("NYR"),
-                        new PlaysIn("NYI"),
-                        new PlaysIn("BOS")
-                )
-        );
+//        Matcher m = new And(
+//                new HasAtLeast(50, "points"),
+//                new Or(
+//                        new PlaysIn("NYR"),
+//                        new PlaysIn("NYI"),
+//                        new PlaysIn("BOS")
+//                )
+//        );
+        QueryBuilder query = new QueryBuilder();
+        //Kaikki pelaajat
+//        Matcher m = query.build();
+        //Kaikki joiden joukkue NYR
+//        Matcher m = query.playsIn("NYR").build();
+        //kaikki joiden joukkue NYR ja vähintään 5 ja vähemmän kuin 10 maalia.
+        Matcher m = query.playsIn("NYR")
+                         .hasAtLeast(5, "goals")
+                         .hasFewerThan(10, "goals").build();
+        m = query.not(m).build();
 
         List<Player> tulos = stats.matches(m);
-        System.out.println(tulos.size());
         for (Player player : tulos) {
             System.out.println(player);
         }
+        System.out.println(tulos.size());
+
     }
 }
