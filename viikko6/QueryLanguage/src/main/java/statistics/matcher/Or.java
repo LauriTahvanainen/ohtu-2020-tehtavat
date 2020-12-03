@@ -17,7 +17,6 @@ public class Or implements Matcher {
                 return true;
             }
         }
-
         return false;
     }
 }

@@ -40,11 +40,25 @@ public class Main {
         //Kaikki joiden joukkue NYR
 //        Matcher m = query.playsIn("NYR").build();
         //kaikki joiden joukkue NYR ja vähintään 5 ja vähemmän kuin 10 maalia.
-        Matcher m = query.playsIn("NYR")
-                         .hasAtLeast(5, "goals")
-                         .hasFewerThan(10, "goals").build();
-        m = query.not(m).build();
+//        Matcher m = query.playsIn("NYR")
+//                         .hasAtLeast(5, "goals")
+//                         .hasFewerThan(10, "goals").build();
+//        m = query.not(m).build();
+        //Or testi
+//        Matcher m = query.oneOf(query.playsIn("EDM")
+//                .hasAtLeast(40, "points").build(),
+//                query.playsIn("PHI")
+//                        .hasAtLeast(10, "assists")
+//                        .hasFewerThan(5, "goals").build()
+//        ).build();
 
+        Matcher m = query.not(
+                query.oneOf(
+                query.playsIn("PIT").hasAtLeast(20, "goals").build(),
+                query.playsIn("WSH").hasAtLeast(20, "goals").build()
+                ).build())
+                .hasAtLeast(10, "assists")
+                .build();
         List<Player> tulos = stats.matches(m);
         for (Player player : tulos) {
             System.out.println(player);
